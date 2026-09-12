@@ -1,0 +1,55 @@
+{
+  "students": {
+    "total": 1,
+    "page": 1,
+    "limit": 500,
+    "count": 1,
+    "items": [
+      {
+        "student_id": 1001,
+        "student_key": "student-key",
+        "student_full_name": "Nombre Apellido",
+        "student_name": "Nombre",
+        "student_lastname": "Apellido",
+        "student_email": "student@example.invalid",
+        "school_id": 10,
+        "metas": {}
+      }
+    ]
+  },
+  "enroll_groups": {
+    "total": 1,
+    "page": 1,
+    "limit": 500,
+    "count": 1,
+    "items": [
+      {
+        "enroll_group_id": 2001,
+        "enroll_alias": "GROUP-001",
+        "enroll_group_name": "Grupo de prueba",
+        "school_id": 10,
+        "degree_id": 20,
+        "area_id": 30,
+        "ciclo_id": 40,
+        "section_id": 50,
+        "year": 2026,
+        "enroll_ini": "2026-01-01",
+        "enroll_end": "2026-12-31",
+        "counters": {
+          "enroll_group_id": 2001,
+          "seats": 30,
+          "enrolled": "1",
+          "pre_enrolled": "0",
+          "availables": "29"
+        }
+      }
+    ]
+  },
+  "generic": {
+    "total": 1,
+    "page": 1,
+    "limit": 500,
+    "count": 1,
+    "items": [{"id": 1, "title": "Elemento de prueba"}]
+  }
+}

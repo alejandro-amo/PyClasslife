@@ -1,0 +1,24 @@
+# Investigación interna de desarrolladores; forma parte del workspace, pero no del repositorio Git.
+/devdocs/
+/.env-*-prod.local
+/.env-*-test.local
+/.env-research.local
+/.pypi.*.local
+/.pypi-*.local
+
+# Artefactos de build y herramientas Python.
+/dist/
+/build/
+/.venv/
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.pytest-tmp/
+/.tmp-test/
+/outputs/
+/tmp_*.py
+/tmp/

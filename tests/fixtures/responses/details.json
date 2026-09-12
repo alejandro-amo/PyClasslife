@@ -1,0 +1,23 @@
+{
+  "student": {
+    "student_id": 1001,
+    "student_key": "student-key",
+    "student_full_name": "Nombre Apellido",
+    "student_name": "Nombre",
+    "student_lastname": "Apellido",
+    "student_email": "student@example.invalid",
+    "metas": {}
+  },
+  "enroll_group": {
+    "enroll_group_id": 2001,
+    "enroll_alias": "GROUP-001",
+    "enroll_group_name": "Grupo de prueba",
+    "school_id": 10,
+    "degree_id": 20,
+    "area_id": 30,
+    "ciclo_id": 40,
+    "section_id": 50,
+    "year": 2026
+  },
+  "generic": {"id": 1, "title": "Elemento de prueba"}
+}

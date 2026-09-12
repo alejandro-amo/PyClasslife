@@ -1,0 +1,41 @@
+"""Public domain facades for PyClasslife."""
+
+from .domains import (
+    AcademicFacade,
+    AdmissionsFacade,
+    CatalogsFacade,
+    CentersFacade,
+    ClassroomsFacade,
+    ContractsFacade,
+    DraftsFacade,
+    EcommerceFacade,
+    EnrollmentsFacade,
+    FinanceFacade,
+    LeadsFacade,
+    ReportsFacade,
+    RolesFacade,
+    StatusFacade,
+    StudentsFacade,
+    TeachersFacade,
+    UsersFacade,
+)
+
+__all__ = [
+    "AcademicFacade",
+    "AdmissionsFacade",
+    "CatalogsFacade",
+    "CentersFacade",
+    "ClassroomsFacade",
+    "ContractsFacade",
+    "DraftsFacade",
+    "EcommerceFacade",
+    "EnrollmentsFacade",
+    "FinanceFacade",
+    "LeadsFacade",
+    "ReportsFacade",
+    "RolesFacade",
+    "StatusFacade",
+    "StudentsFacade",
+    "TeachersFacade",
+    "UsersFacade",
+]
