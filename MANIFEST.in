@@ -2,3 +2,7 @@ include CHANGELOG.md
 include README.md
 include LICENSE
 recursive-include docs *.md
+prune src/pyclasslife.egg-info
+exclude src/pyclasslife.egg-info/SOURCES.txt
+global-exclude *.egg-info*
+global-exclude *egg-info/*

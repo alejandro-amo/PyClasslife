@@ -1,6 +1,6 @@
 # PyClasslife API reference
 
-## Inicialización
+## Initialization
 
 ```python
 import pyclasslife as cl
@@ -11,9 +11,9 @@ classlife = cl.ClasslifeClient(
 )
 ```
 
-Los métodos de la interfaz pública utilizan argumentos con nombre. Las
-respuestas conservan el resultado interpretado por Classlife, incluyendo sus
-metadatos de paginación cuando el endpoint los proporciona.
+Public interface methods use keyword arguments. Responses preserve the result
+interpreted from Classlife, including pagination metadata when the endpoint
+provides it.
 
 ## Enrollments
 
@@ -23,13 +23,13 @@ metadatos de paginación cuando el endpoint los proporciona.
 response = classlife.enrollments.list_groups(page=1, limit=500)
 ```
 
-Solicita una página de grupos de matrícula mediante `GET /enroll_groups`.
-`page` empieza en `1` y `limit` controla el tamaño solicitado de la página.
-La respuesta paginada expone normalmente `total`, `page`, `limit`, `count` e
-`items` dentro de `response.data`.
+Requests one page of enrollment groups through `GET /enroll_groups`.
+`page` starts at `1` and `limit` controls the requested page size. A paginated
+response normally exposes `total`, `page`, `limit`, `count`, and `items` inside
+`response.data`.
 
-Cada elemento de `items` representa un grupo de matrícula. En muestras reales
-se han observado, entre otros, estos campos:
+Each `items` element represents an enrollment group. Real samples have exposed,
+among others, the following fields:
 
 ```python
 {
@@ -69,26 +69,25 @@ se han observado, entre otros, estos campos:
 }
 ```
 
-La instalación puede añadir campos de configuración propios, incluidos
-campos con nombres localizados o espacios. También puede devolver `null` para
-campos no configurados. Por ello, los consumidores deben tratar los campos
-no esenciales como opcionales y no deben asumir que todos los elementos tienen
-exactamente las mismas claves o tipos. Los campos `metas` son extensiones
-personalizables y deben tratarse como un mapa opaco cuando aparezcan.
+An installation may add custom configuration fields, including fields with
+localized names or spaces. It may also return `null` for unconfigured fields.
+Consumers should therefore treat non-essential fields as optional and must not
+assume that every item has exactly the same keys or types. `metas` fields are
+customizable extensions and must be treated as an opaque mapping when present.
 
-Para solicitar otra página, se vuelve a llamar al mismo método usando el
-número de página indicado por `response.data["page"]` y los mismos límites:
+To request another page, call the same method again with the page number from
+`response.data["page"]` and the same limits:
 
 ```python
 second_page = classlife.enrollments.list_groups(page=2, limit=500)
 ```
 
-`list_groups` devuelve una página; no combina páginas ni crea un iterador.
+`list_groups` returns one page; it does not combine pages or create an iterator.
 
-#### Filtros de listados
+#### List filters
 
-Los métodos de listado aceptan filtros adicionales como argumentos con nombre;
-se envían como parámetros de consulta junto con `page` y `limit`:
+List methods accept additional filters as keyword arguments; they are sent as
+query parameters together with `page` and `limit`:
 
 ```python
 students_page = classlife.students.list(
@@ -102,21 +101,20 @@ groups_page = classlife.enrollments.list_groups(
 )
 ```
 
-La API de Classlife no aplica una política uniforme a todos los atributos. La
-lista completa de filtros observados experimentalmente, junto con sus
-cardinalidades y limitaciones, se mantiene en la documentación interna del
-proyecto. Las claves de
-`metas` son específicas de cada instalación y se pueden consultar con la
-notación `metas.<clave>` cuando la instalación las expone, por ejemplo
-`metas.email2=...`. Los filtros no reconocidos pueden producir HTTP 400.
+The Classlife API does not apply a uniform policy to every attribute. The full
+list of experimentally observed filters, together with their cardinalities and
+limitations, is maintained in the project's internal documentation. `metas`
+keys are installation-specific and can be queried with `metas.<key>` when the
+installation exposes them, for example `metas.email2=...`. Unknown filters may
+produce HTTP 400.
 
-#### Filtros observados por resource
+#### Observed filters by resource
 
-La siguiente tabla resume los filtros que han producido una reducción
-observable en pruebas GET. Es evidencia de comportamiento de Classlife, no una
-garantía contractual para todas las instalaciones.
+The following table summarizes filters that produced an observable reduction
+in GET tests. This is evidence of observed Classlife behavior, not a contractual
+guarantee for every installation.
 
-| Resource | Filtros observados |
+| Resource | Observed filters |
 | --- | --- |
 | `students` | `student_id`, `student_key`, `student_full_name`, `student_name`, `student_lastname`, `student_lastnameend`, `student_email`, `student_phone`, `student_uid` |
 | `teachers` | `id`, `name`, `lastname`, `email`, `uid`, `language_code`, `registration_date` |
@@ -141,16 +139,16 @@ garantía contractual para todas las instalaciones.
 | `users` | `user_id`, `user_role_id`, `user_active` |
 | `curriculum` | `degree_id`, `area_id`, `program_id`, `course_id` |
 
-Los filtros de texto observados admiten búsquedas parciales y, en los casos
-probados, insensibles a mayúsculas/minúsculas. El carácter `%` se comporta
-como comodín en `teachers.name`. La combinación de filtros se comporta como
-una conjunción (`AND`). Los filtros booleanos no deben convertirse según la
-truthiness de Python: Classlife puede exigir representaciones como `1` o `0`
-según el campo. Los filtros `metas.<clave>` son posibles cuando la instalación
-expone esa meta, pero sus nombres y semántica no son portables.
+The observed text filters support partial searches and, in the tested cases,
+are case-insensitive. The `%` character behaves as a wildcard for
+`teachers.name`. Combining filters behaves as a conjunction (`AND`). Boolean
+filters must not be converted according to Python truthiness: Classlife may
+require representations such as `1` or `0` depending on the field.
+`metas.<key>` filters are possible when the installation exposes that meta, but
+their names and semantics are not portable.
 
-Como `metas.<clave>` contiene un punto y no puede escribirse como un keyword
-Python normal, se puede pasar mediante expansión de diccionario:
+Because `metas.<key>` contains a dot and cannot be written as a normal Python
+keyword, pass it by expanding a dictionary:
 
 ```python
 students_with_email = classlife.students.list(
@@ -164,9 +162,9 @@ students_with_email = classlife.students.list(
 response = classlife.enrollments.get_group(group_id=123)
 ```
 
-Obtiene un grupo concreto mediante `GET /enroll_groups/{id}`. Su estructura de
-datos comparte los campos del listado, aunque la instalación puede poblar
-campos opcionales de forma diferente.
+Gets one enrollment group through `GET /enroll_groups/{id}`. Its data structure
+shares the fields of the list response, although an installation may populate
+optional fields differently.
 
 ### list_group_grades
 
@@ -174,5 +172,4 @@ campos opcionales de forma diferente.
 response = classlife.enrollments.list_group_grades(group_id=123, page=1, limit=500)
 ```
 
-Obtiene una página de calificaciones del grupo mediante
-`GET /enroll_groups/{id}/grades`.
+Gets one page of group grades through `GET /enroll_groups/{id}/grades`.

@@ -4,13 +4,29 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyclasslife"
-version = "0.0.1"
+version = "0.0.2"
 description = "Typed Python client for the Classlife API."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "PyClasslife contributors" }]
+keywords = ["classlife", "api", "python", "client", "education"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
 dependencies = ["requests>=2.31"]
+
+[project.urls]
+Repository = "https://github.com/alejandro-amo/PyClasslife"
+Documentation = "https://github.com/alejandro-amo/PyClasslife/tree/master/docs"
+Changelog = "https://github.com/alejandro-amo/PyClasslife/blob/master/CHANGELOG.md"
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
