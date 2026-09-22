@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyclasslife"
-version = "0.0.2"
+version = "0.0.3"
 description = "Typed Python client for the Classlife API."
 readme = "README.md"
 requires-python = ">=3.10"

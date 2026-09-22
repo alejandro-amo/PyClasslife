@@ -15,10 +15,11 @@ python -m pip install pyclasslife
 
 ## Documentation
 
-See [the API reference](docs/pyclasslife-api-reference.md) for the public
-interface.
+See [the API reference](https://github.com/alejandro-amo/PyClasslife/blob/master/docs/pyclasslife-api-reference.md)
+for the public interface.
 
-See [the developer reference](docs/pyclasslife-developer-reference.md) for
-architecture and contribution details.
+See [the developer reference](https://github.com/alejandro-amo/PyClasslife/blob/master/docs/pyclasslife-developer-reference.md)
+for architecture and contribution details.
 
-See [the changelog](CHANGELOG.md) for release history.
+See [the changelog](https://github.com/alejandro-amo/PyClasslife/blob/master/CHANGELOG.md)
+for release history.

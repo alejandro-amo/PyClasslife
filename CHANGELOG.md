@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.3
+
+- Fixed README links to point to the public GitHub documentation.
+
 ## 0.0.2
 
 - Completed PyPI project metadata and distribution configuration.
