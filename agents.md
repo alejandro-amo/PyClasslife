@@ -15,6 +15,9 @@ controlled publication.
 - Use type hints, docstrings, and clear names. Do not expose internal APIs accidentally.
 - Keep public documentation and technical documentation for private methods in separate files. Public documentation describes only the consumer API; implementation details, invariants, and private helpers belong in technical documentation.
 - Document public `pyclasslife.tools` utilities with the main public class in public documentation.
+- Prefer absolute GitHub URLs in `README.md` for links to repository-hosted public
+  documentation, using the predictable repository URL, so those links continue
+  to work when the README is rendered on PyPI.
 - Do not include credentials, tokens, cookies, sensitive Classlife responses, or personal data in the repository, logs, fixtures, or artifacts.
 - Keep sensitive data out of `repr`; apply `repr=False` only to sensitive fields and retain useful non-sensitive debugging information.
 - Document breaking changes as version changes.

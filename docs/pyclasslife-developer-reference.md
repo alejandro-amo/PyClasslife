@@ -22,6 +22,9 @@ src/pyclasslife/
 `devdocs/` is part of the local development workspace but is intentionally
 ignored by Git and excluded from packages and releases. It contains internal
 research, samples and working notes; it is not a substitute for this document.
+The folder may be provided to developers who want to collaborate on the
+project so they can review the research context and internal samples. It must
+remain outside commits, packages and releases.
 
 ## Layer responsibilities
 
@@ -150,6 +153,8 @@ Public consumer behavior belongs in `docs/pyclasslife-api-reference.md`.
 Technical details about private methods and architecture belong in this file.
 Research notes, raw samples and installation-specific observations belong in
 the Git-ignored `devdocs/` directory.
+
+For collaboration requests, contact hello@alejandroamo.eu.
 
 Before opening a contribution:
 
