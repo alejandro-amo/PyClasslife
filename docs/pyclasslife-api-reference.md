@@ -106,7 +106,7 @@ keyword arguments are sent as endpoint-specific query filters.
 
 ### Installation metas
 
-Student, teacher, teacher-contract, provider, and provider-teacher objects may
+Student, teacher, teacher-contract, enrollment, provider, and provider-teacher objects may
 contain installation-specific fields in `response.data["metas"]`. Request
 those values explicitly with `show_metas=True` on a collection or detail
 method:
@@ -121,10 +121,12 @@ contract = classlife.teachers.contracts.get(
     contract_id="456",
     show_metas=True,
 )
+enrollment = classlife.enrollments.get(enrollment_id="123", show_metas=True)
 provider = classlife.finance.get_provider(provider_id="123", show_metas=True)
 ~~~
 
 The same flag is available on `classlife.teachers.contracts.list`,
+`classlife.enrollments.list`,
 `classlife.finance.list_providers`, and
 `classlife.finance.list_provider_teachers`. `list_metas()` methods return
 installation meta definitions; they do not return values for a particular
@@ -605,8 +607,8 @@ POST /enrollments/draft.
 | list_groups(page=1, limit=500, **filters) | GET /enroll_groups | Page |
 | get_group(group_id=...) | GET /enroll_groups/{group_id} | ClasslifeResponse |
 | list_group_grades(group_id=..., page=1, limit=500, **filters) | GET /enroll_groups/{group_id}/grades | Page |
-| list(page=1, limit=500, **filters) | GET /enrollments | Page |
-| get(enrollment_id=...) | GET /enrollments/{enrollment_id} | ClasslifeResponse |
+| list(page=1, limit=500, show_metas=False, **filters) | GET /enrollments | Page |
+| get(enrollment_id=..., show_metas=False) | GET /enrollments/{enrollment_id} | ClasslifeResponse |
 
 ## admissions
 

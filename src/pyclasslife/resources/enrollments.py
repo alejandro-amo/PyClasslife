@@ -9,7 +9,9 @@ class EnrollmentsResource(_Resource):
 
     def list_groups(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
         """Return one paginated page of enrollment groups."""
-        return self._get_page(path="enroll_groups", page=page, limit=limit, params=filters)
+        return self._get_page(
+            path="enroll_groups", page=page, limit=limit, params=filters
+        )
 
     def get_group(self, *, group_id: str) -> Any:
         return self._get(path=f"enroll_groups/{group_id}")
@@ -18,14 +20,31 @@ class EnrollmentsResource(_Resource):
         self, *, group_id: str, page: int = 1, limit: int = 500, **filters: Any
     ) -> Any:
         return self._get_page(
-            path=f"enroll_groups/{group_id}/grades", page=page, limit=limit, params=filters
+            path=f"enroll_groups/{group_id}/grades",
+            page=page,
+            limit=limit,
+            params=filters,
         )
 
-    def list(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
-        return self._get_page(path="enrollments", page=page, limit=limit, params=filters)
+    def list(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 500,
+        show_metas: bool = False,
+        **filters: Any,
+    ) -> Any:
+        if show_metas:
+            filters["showMetas"] = 1
+        return self._get_page(
+            path="enrollments", page=page, limit=limit, params=filters
+        )
 
-    def get(self, *, enrollment_id: str) -> Any:
-        return self._get(path=f"enrollments/{enrollment_id}")
+    def get(self, *, enrollment_id: str, show_metas: bool = False) -> Any:
+        return self._get(
+            path=f"enrollments/{enrollment_id}",
+            params=self._show_metas_params(show_metas=show_metas),
+        )
 
     def create(self, *, payload: Mapping[str, Any]) -> Any:
         return self._post(path="enrollments", payload=payload)

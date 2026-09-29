@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5
+
+- Added optional `show_metas` support to enrollment lists and details.
+- Documented and tested enrollment meta retrieval.
+
 ## 0.0.4
 
 - Added optional `show_metas` support to compatible resource lists and details.

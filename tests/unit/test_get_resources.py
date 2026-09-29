@@ -226,6 +226,7 @@ def test_student_get_can_request_metas() -> None:
             {"teacher_id": "1"},
             "providers/teachers/1",
         ),
+        (EnrollmentsResource, "get", {"enrollment_id": "1"}, "enrollments/1"),
     ],
 )
 def test_meta_compatible_detail_resources_can_request_metas(
@@ -255,6 +256,7 @@ def test_meta_compatible_detail_resources_can_request_metas(
             {},
             "providers/teachers",
         ),
+        (EnrollmentsResource, "list", {}, "enrollments"),
     ],
 )
 def test_meta_compatible_list_resources_can_request_metas(
