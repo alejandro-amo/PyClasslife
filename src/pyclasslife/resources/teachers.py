@@ -12,11 +12,23 @@ class TeachersResource(_Resource):
         super().__init__(**kwargs)
         self.contracts = ContractsResource(**kwargs)
 
-    def list(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
+    def list(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 500,
+        show_metas: bool = False,
+        **filters: Any,
+    ) -> Any:
+        if show_metas:
+            filters["showMetas"] = 1
         return self._get_page(path="teachers", page=page, limit=limit, params=filters)
 
-    def get(self, *, teacher_id: str) -> Any:
-        return self._get(path=f"teachers/{teacher_id}")
+    def get(self, *, teacher_id: str, show_metas: bool = False) -> Any:
+        return self._get(
+            path=f"teachers/{teacher_id}",
+            params=self._show_metas_params(show_metas=show_metas),
+        )
 
     def update(self, *, teacher_id: str, payload: Mapping[str, Any]) -> Any:
         return self._patch(path=f"teachers/{teacher_id}", payload=payload)

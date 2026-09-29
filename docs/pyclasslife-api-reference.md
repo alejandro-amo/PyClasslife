@@ -104,6 +104,34 @@ second_page = classlife.students.list(page=2, limit=500)
 The client does not combine pages and does not create iterators. Additional
 keyword arguments are sent as endpoint-specific query filters.
 
+### Installation metas
+
+Student, teacher, teacher-contract, provider, and provider-teacher objects may
+contain installation-specific fields in `response.data["metas"]`. Request
+those values explicitly with `show_metas=True` on a collection or detail
+method:
+
+~~~python
+students = classlife.students.list(show_metas=True)
+student = classlife.students.get(student_id="123", show_metas=True)
+teachers = classlife.teachers.list(show_metas=True)
+teacher = classlife.teachers.get(teacher_id="123", show_metas=True)
+contract = classlife.teachers.contracts.get(
+    teacher_id="123",
+    contract_id="456",
+    show_metas=True,
+)
+provider = classlife.finance.get_provider(provider_id="123", show_metas=True)
+~~~
+
+The same flag is available on `classlife.teachers.contracts.list`,
+`classlife.finance.list_providers`, and
+`classlife.finance.list_provider_teachers`. `list_metas()` methods return
+installation meta definitions; they do not return values for a particular
+object. To read values, request the object or collection with `show_metas=True`
+and inspect its `metas` field. Meta names and values are installation-specific
+and must be treated as opaque.
+
 ### Filtering
 
 Filters are endpoint-specific query parameters and are not validated against a
@@ -189,10 +217,16 @@ identifier returned by the installation.
 #### list
 
 ~~~python
-page = classlife.students.list(page=1, limit=500, student_name="Ada")
+page = classlife.students.list(
+    page=1,
+    limit=500,
+    student_name="Ada",
+    show_metas=True,
+)
 ~~~
 
-GET /students. Returns Page.
+GET /students. Returns Page. `show_metas=True` requests the
+installation-specific `metas` values for each returned student.
 
 #### get
 
@@ -200,7 +234,19 @@ GET /students. Returns Page.
 response = classlife.students.get(student_id="123")
 ~~~
 
-GET /students/{student_id}. Returns ClasslifeResponse.
+GET /students/{student_id}. Returns ClasslifeResponse. Pass
+show_metas=True to request the installation-specific meta values:
+
+~~~python
+response = classlife.students.get(
+    student_id="123",
+    show_metas=True,
+)
+metas = response.data["metas"]
+~~~
+
+PyClasslife translates show_metas=True to Classlife's showMetas=1 query
+parameter. When it is not requested, Classlife normally omits metas.
 
 #### list_metas
 
@@ -366,7 +412,12 @@ fields are lastnameend, uid, phone, school_id, language_code, and meta_fields.
 #### list
 
 ~~~python
-page = classlife.teachers.list(page=1, limit=500, name="Profesor")
+page = classlife.teachers.list(
+    page=1,
+    limit=500,
+    name="Professor",
+    show_metas=True,
+)
 ~~~
 
 GET /teachers. Returns Page.
@@ -374,10 +425,11 @@ GET /teachers. Returns Page.
 #### get
 
 ~~~python
-response = classlife.teachers.get(teacher_id="123")
+response = classlife.teachers.get(teacher_id="123", show_metas=True)
 ~~~
 
-GET /teachers/{teacher_id}. Returns ClasslifeResponse.
+GET /teachers/{teacher_id}. Returns ClasslifeResponse. Pass
+`show_metas=True` to request the installation-specific values in `metas`.
 
 #### list_metas
 
@@ -395,6 +447,7 @@ page = classlife.teachers.contracts.list(
     teacher_id="123",
     page=1,
     limit=500,
+    show_metas=True,
 )
 ~~~
 
@@ -406,10 +459,12 @@ GET /teachers/{teacher_id}/contracts. Returns Page.
 response = classlife.teachers.contracts.get(
     teacher_id="123",
     contract_id="456",
+    show_metas=True,
 )
 ~~~
 
-GET /teachers/{teacher_id}/contracts/{contract_id}.
+GET /teachers/{teacher_id}/contracts/{contract_id}. Pass
+`show_metas=True` to request the installation-specific values in `metas`.
 
 #### contracts.list_metas
 
@@ -619,10 +674,10 @@ The delete method requires exactly one of admission_id or admission_ids.
 | get_invoice(invoice_id=...) | GET /invoices/{invoice_id} | ClasslifeResponse |
 | list_remittances(page=1, limit=500, **filters) | GET /remittances | Page |
 | get_remittance(remittance_id=...) | GET /remittances/{remittance_id} | ClasslifeResponse |
-| list_providers(page=1, limit=500, **filters) | GET /providers | Page |
-| get_provider(provider_id=...) | GET /providers/{provider_id} | ClasslifeResponse |
-| list_provider_teachers(page=1, limit=500, **filters) | GET /providers/teachers | Page |
-| get_provider_teacher(teacher_id=...) | GET /providers/teachers/{teacher_id} | ClasslifeResponse |
+| list_providers(page=1, limit=500, show_metas=False, **filters) | GET /providers | Page |
+| get_provider(provider_id=..., show_metas=False) | GET /providers/{provider_id} | ClasslifeResponse |
+| list_provider_teachers(page=1, limit=500, show_metas=False, **filters) | GET /providers/teachers | Page |
+| get_provider_teacher(teacher_id=..., show_metas=False) | GET /providers/teachers/{teacher_id} | ClasslifeResponse |
 | list_discounts(page=1, limit=500, **filters) | GET /finance/discounts | Page |
 | create_provider(**fields) | POST /providers | ClasslifeResponse |
 | create_provider_teacher(**fields) | POST /providers/teachers | ClasslifeResponse |
@@ -632,6 +687,8 @@ The delete method requires exactly one of admission_id or admission_ids.
 | delete_provider_teacher(teacher_id=...) | DELETE /providers/teachers/{teacher_id} | ClasslifeResponse |
 
 The two provider meta methods return definitions, not values for one provider.
+Use `show_metas=True` on provider and provider-teacher list/detail methods to
+request the values attached to returned objects.
 
 ## leads
 

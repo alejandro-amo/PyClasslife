@@ -60,6 +60,10 @@ controlled publication.
 Get the values `SAFE_STUDENT_ID` and `SAFE_TEACHER_ID` from there. Those IDs refer to the only student and teacher IDs in that environment that may be edited with PUT/PATCH. 
 This authorization does not extend to other records or environments.
 - Classlife `metas` are installation-specific extensions. Treat them as opaque mappings and assume no keys, types, requiredness, semantics, or limits for any `metas.<key>` entry.
+- In external LMS integrations, Classlife `course_code` may correspond to the
+  `externalId` of a template course rather than the `externalId` of the
+  production classroom itself. Do not treat these identifiers as
+  interchangeable without installation-specific confirmation.
 - Do not copy credentials, personal data, or identifying real responses into `devdocs`.
 - Real API fixtures belong only in `devdocs/`, preferably from RESEARCH environment. Before retaining them, anonymize them and remove credentials, real identifiers, personal data, and sensitive values.
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4
+
+- Added optional `show_metas` support to compatible resource lists and details.
+- Documented installation meta retrieval and expanded unit-test coverage.
+
 ## 0.0.3
 
 - Fixed README links to point to the public GitHub documentation.

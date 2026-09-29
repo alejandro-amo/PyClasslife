@@ -25,26 +25,56 @@ class FinanceResource(_Resource):
     def get_invoice(self, *, invoice_id: str) -> Any:
         return self._get(path=f"invoices/{invoice_id}")
 
-    def list_remittances(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
-        return self._get_page(path="remittances", page=page, limit=limit, params=filters)
+    def list_remittances(
+        self, *, page: int = 1, limit: int = 500, **filters: Any
+    ) -> Any:
+        return self._get_page(
+            path="remittances", page=page, limit=limit, params=filters
+        )
 
     def get_remittance(self, *, remittance_id: str) -> Any:
         return self._get(path=f"remittances/{remittance_id}")
 
-    def list_providers(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
+    def list_providers(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 500,
+        show_metas: bool = False,
+        **filters: Any,
+    ) -> Any:
+        if show_metas:
+            filters["showMetas"] = 1
         return self._get_page(path="providers", page=page, limit=limit, params=filters)
 
-    def get_provider(self, *, provider_id: str) -> Any:
-        return self._get(path=f"providers/{provider_id}")
+    def get_provider(self, *, provider_id: str, show_metas: bool = False) -> Any:
+        return self._get(
+            path=f"providers/{provider_id}",
+            params=self._show_metas_params(show_metas=show_metas),
+        )
 
     def update_provider(self, *, provider_id: str, payload: Mapping[str, Any]) -> Any:
         return self._patch(path=f"providers/{provider_id}", payload=payload)
 
-    def list_provider_teachers(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
-        return self._get_page(path="providers/teachers", page=page, limit=limit, params=filters)
+    def list_provider_teachers(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 500,
+        show_metas: bool = False,
+        **filters: Any,
+    ) -> Any:
+        if show_metas:
+            filters["showMetas"] = 1
+        return self._get_page(
+            path="providers/teachers", page=page, limit=limit, params=filters
+        )
 
-    def get_provider_teacher(self, *, teacher_id: str) -> Any:
-        return self._get(path=f"providers/teachers/{teacher_id}")
+    def get_provider_teacher(self, *, teacher_id: str, show_metas: bool = False) -> Any:
+        return self._get(
+            path=f"providers/teachers/{teacher_id}",
+            params=self._show_metas_params(show_metas=show_metas),
+        )
 
     def update_provider_teacher(
         self, *, teacher_id: str, payload: Mapping[str, Any]
@@ -52,7 +82,9 @@ class FinanceResource(_Resource):
         return self._patch(path=f"providers/teachers/{teacher_id}", payload=payload)
 
     def list_discounts(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
-        return self._get_page(path="finance/discounts", page=page, limit=limit, params=filters)
+        return self._get_page(
+            path="finance/discounts", page=page, limit=limit, params=filters
+        )
 
     def create_provider(self, *, payload: Mapping[str, Any]) -> Any:
         return self._post(path="providers", payload=payload)

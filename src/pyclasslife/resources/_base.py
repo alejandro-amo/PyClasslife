@@ -73,6 +73,11 @@ class _Resource:
         )
         return self.response_handler.handle(response=response)
 
+    @staticmethod
+    def _show_metas_params(*, show_metas: bool) -> Mapping[str, Any] | None:
+        """Translate the public flag to Classlife's query parameter."""
+        return {"showMetas": 1} if show_metas else None
+
     def _delete(self, *, path: str, payload: Mapping[str, Any] | None = None) -> Any:
         kwargs: dict[str, Any] = {}
         if payload is not None:

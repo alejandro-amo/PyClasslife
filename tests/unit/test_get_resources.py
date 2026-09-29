@@ -196,6 +196,82 @@ def test_detail_get_resource_methods_delegate_to_transport(
     )
 
 
+def test_student_get_can_request_metas() -> None:
+    resource, transport = _resource(StudentsResource)
+
+    resource.get(student_id="1", show_metas=True)
+
+    transport.request.assert_called_once_with(
+        method="GET",
+        url=f"{DEFAULT_BASE_URL}students/1",
+        params={"showMetas": 1},
+    )
+
+
+@pytest.mark.parametrize(
+    "resource_type, method_name, kwargs, path",
+    [
+        (StudentsResource, "get", {"student_id": "1"}, "students/1"),
+        (TeachersResource, "get", {"teacher_id": "1"}, "teachers/1"),
+        (
+            ContractsResource,
+            "get",
+            {"teacher_id": "1", "contract_id": "2"},
+            "teachers/1/contracts/2",
+        ),
+        (FinanceResource, "get_provider", {"provider_id": "1"}, "providers/1"),
+        (
+            FinanceResource,
+            "get_provider_teacher",
+            {"teacher_id": "1"},
+            "providers/teachers/1",
+        ),
+    ],
+)
+def test_meta_compatible_detail_resources_can_request_metas(
+    resource_type, method_name, kwargs, path
+) -> None:
+    resource, transport = _resource(resource_type)
+
+    getattr(resource, method_name)(show_metas=True, **kwargs)
+
+    transport.request.assert_called_once_with(
+        method="GET",
+        url=f"{DEFAULT_BASE_URL}{path}",
+        params={"showMetas": 1},
+    )
+
+
+@pytest.mark.parametrize(
+    "resource_type, method_name, kwargs, path",
+    [
+        (StudentsResource, "list", {}, "students"),
+        (TeachersResource, "list", {}, "teachers"),
+        (ContractsResource, "list", {"teacher_id": "1"}, "teachers/1/contracts"),
+        (FinanceResource, "list_providers", {}, "providers"),
+        (
+            FinanceResource,
+            "list_provider_teachers",
+            {},
+            "providers/teachers",
+        ),
+    ],
+)
+def test_meta_compatible_list_resources_can_request_metas(
+    resource_type, method_name, kwargs, path
+) -> None:
+    resource, transport = _resource(resource_type)
+    _page_response(transport, path)
+
+    getattr(resource, method_name)(show_metas=True, **kwargs)
+
+    transport.request.assert_called_once_with(
+        method="GET",
+        url=f"{DEFAULT_BASE_URL}{path}",
+        params={"page": 1, "limit": 500, "showMetas": 1},
+    )
+
+
 def test_student_subresource_get_lists_delegate_to_transport() -> None:
     resource, transport = _resource(StudentsResource)
     _page_response(transport, "students")

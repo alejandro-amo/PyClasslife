@@ -15,12 +15,25 @@ class StudentsResource(_Resource):
     def create(self, *, payload: Mapping[str, Any]) -> Any:
         return self._post(path="students", payload=payload)
 
-    def list(self, *, page: int = 1, limit: int = 500, **filters: Any) -> Any:
+    def list(
+        self,
+        *,
+        page: int = 1,
+        limit: int = 500,
+        show_metas: bool = False,
+        **filters: Any,
+    ) -> Any:
         """Return one paginated page of students."""
+        if show_metas:
+            filters["showMetas"] = 1
         return self._get_page(path="students", page=page, limit=limit, params=filters)
 
-    def get(self, *, student_id: str) -> Any:
-        return self._get(path=f"students/{student_id}")
+    def get(self, *, student_id: str, show_metas: bool = False) -> Any:
+        """Return one student, optionally including installation metas."""
+        return self._get(
+            path=f"students/{student_id}",
+            params=self._show_metas_params(show_metas=show_metas),
+        )
 
     def update(self, *, student_id: str, payload: Mapping[str, Any]) -> Any:
         return self._patch(path=f"students/{student_id}", payload=payload)
@@ -28,7 +41,9 @@ class StudentsResource(_Resource):
     def list_metas(self, *, page: int = 1, limit: int = 500) -> Any:
         return self._get(path="students/metas")
 
-    def list_grades(self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any) -> Any:
+    def list_grades(
+        self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any
+    ) -> Any:
         return self._get_page(
             path=f"students/{student_id}/grades", page=page, limit=limit, params=filters
         )
@@ -37,7 +52,10 @@ class StudentsResource(_Resource):
         self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any
     ) -> Any:
         return self._get_page(
-            path=f"students/{student_id}/enrollments", page=page, limit=limit, params=filters
+            path=f"students/{student_id}/enrollments",
+            page=page,
+            limit=limit,
+            params=filters,
         )
 
     def block(self, *, student_id: str, payload: Mapping[str, Any]) -> Any:
@@ -53,7 +71,9 @@ class StudentsResource(_Resource):
 class _StudentRolesResource(_Resource):
     """Access roles belonging to a student."""
 
-    def list(self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any) -> Any:
+    def list(
+        self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any
+    ) -> Any:
         return self._get_page(
             path=f"students/{student_id}/roles", page=page, limit=limit, params=filters
         )
@@ -70,9 +90,14 @@ class _StudentRolesResource(_Resource):
 class _StudentCentersResource(_Resource):
     """Access centers belonging to a student."""
 
-    def list(self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any) -> Any:
+    def list(
+        self, *, student_id: str, page: int = 1, limit: int = 500, **filters: Any
+    ) -> Any:
         return self._get_page(
-            path=f"students/{student_id}/centers", page=page, limit=limit, params=filters
+            path=f"students/{student_id}/centers",
+            page=page,
+            limit=limit,
+            params=filters,
         )
 
     def delete(self, *, student_id: str, center_id: str) -> Any:
